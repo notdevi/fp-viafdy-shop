@@ -9,10 +9,10 @@
         <div class="col-md-12 mt-2">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{{ url('home') }}">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">{{ $barang->nama_barang }}</li>
+                    <li class="breadcrumb-item"><a href="{{ url('home') }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $barang->nama_barang }}</li>
                 </ol>
-              </nav>
+            </nav>
         </div>
         <div class="col-md-12 mt-1">
             <div class="card">
@@ -43,22 +43,18 @@
                                         <td>:</td>
                                         <td>{{ $barang->keterangan }}</td>
                                     </tr>
-                                    <form action="" method="post">
-                                        <tr>
-                                            <td>Jumlah Pesan</td>
-                                            <td>:</td>
-                                            <td>
+
+                                    <tr>
+                                        <td>Jumlah Pesan</td>
+                                        <td>:</td>
+                                        <td>
+                                            <form action="{{ url('pesan') }}/{{ $barang->id }}" method="post">
+                                                @csrf
                                                 <input type="text" name="jumlah_pesan" class="form-control" required="">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <button type="submit" class="btn btn-primary">Masukkan Keranjang</button>
-                                            </td>
-                                        </tr>
-                                    </form>
+                                                <button type="submit" class="btn btn-primary mt-2">Masukkan Keranjang</button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
