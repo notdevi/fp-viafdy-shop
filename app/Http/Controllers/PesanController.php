@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Barang;
 use App\Pesanan;
 use App\PesananDetail;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Auth;
 use Alert;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class PesanController extends Controller
 {
@@ -43,6 +44,7 @@ class PesanController extends Controller
             $pesanan->tanggal = $tanggal;
             $pesanan->status = 0;
             $pesanan->jumlah_harga = 0;
+            $pesanan->kode = mt_rand(100, 999);
             $pesanan->save();
         }
 
@@ -105,6 +107,18 @@ class PesanController extends Controller
     }
     public function konfirmasi()
     {
+        $user = User::where('id', Auth::user()->id)->first();
+
+        if(empty($user->alamat)){
+            Alert::error('Identitas Harap Dilengkapi', 'Error');
+            return redirect('profile');
+        }
+
+        if(empty($user->nohp)){
+            Alert::error('Identitas Harap Dilengkapi', 'Error');
+            return redirect('profile');
+        }
+
         $pesanan = Pesanan::where('user_id', Auth::user()->id)->where('status', 0)->first();
         $pesanan_id = $pesanan->id;
         $pesanan->status = 1;
@@ -118,6 +132,6 @@ class PesanController extends Controller
         }
 
         Alert::success('Pesanan Sukses Check Out Silahkan Lanjutkan Proses Pembayaran', 'Success');
-        return redirect('check-out');
+        return redirect('history/'.$pesanan_id);
     }
 }
